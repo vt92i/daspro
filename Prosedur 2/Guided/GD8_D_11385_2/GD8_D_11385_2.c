@@ -267,9 +267,9 @@ void printRincian(string nama, string tgl, int jmlA, int jmlB, int jmlC, int tot
     printf("Nama              : %s", nama);
     printf("\nTanggal pembelian : %s\n", tgl);
 
-    printf("\n[Tas A]  | %d |\t| %d IDR |\t---> Total : %d IDR", jmlA, hargaA, totA);
-    printf("\n[Tas B]  | %d |\t| %d IDR |\t---> Total : %d IDR", jmlB, hargaB, totB);
-    printf("\n[Tas C]  | %d |\t| %d IDR |\t---> Total : %d IDR", jmlC, hargaC, totC);
+    printf("\n[Tas A]  | %d \t| %d IDR |\t---> Total : %d IDR", jmlA, hargaA, totA);
+    printf("\n[Tas B]  | %d \t| %d IDR |\t---> Total : %d IDR", jmlB, hargaB, totB);
+    printf("\n[Tas C]  | %d \t| %d IDR |\t---> Total : %d IDR", jmlC, hargaC, totC);
 
     printf("\n");
     printf("\nTotal yang harus dibayar : %d IDR\n", total);
