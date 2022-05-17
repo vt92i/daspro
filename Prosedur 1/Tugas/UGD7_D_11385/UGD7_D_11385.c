@@ -37,7 +37,7 @@ void pause_f();
 // D
 
 int main(int argc, char const *argv[]) {
-    if (PLATFORM_NAME == "linux") {
+    if (strcmp(PLATFORM_NAME, "linux") == 0) {
         initscr();
         getch();
         endwin();
@@ -140,7 +140,7 @@ void tampilSelisihJarak(bool *tampil_selisih_jarak) {
 
     while (true) {
         printf("\nTampilkan selisih jarak? (Y/n)");
-        scanf("%s", &konfirm);
+        scanf("%s", konfirm);
 
         if (strcmp(konfirm, "Y") == 0) {
             *tampil_selisih_jarak = true;
@@ -295,20 +295,20 @@ void menuErrorHandler() {
 }
 
 void clear_screen_f() {
-    if (PLATFORM_NAME == "linux")
+    if (strcmp(PLATFORM_NAME, "linux") == 0)
         system("clear");
 
-    if (PLATFORM_NAME == "windows")
+    if (strcmp(PLATFORM_NAME, "windows") == 0)
         system("cls");
 }
 
 void pause_f() {
-    if (PLATFORM_NAME == "linux") {
+    if (strcmp(PLATFORM_NAME, "linux") == 0) {
         initscr();
         getch();
         endwin();
     }
 
-    if (PLATFORM_NAME == "windows")
+    if (strcmp(PLATFORM_NAME, "windows") == 0)
         getch();
 }
