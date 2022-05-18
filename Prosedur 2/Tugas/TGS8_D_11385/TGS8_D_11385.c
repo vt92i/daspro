@@ -52,6 +52,9 @@ void hitungKeuntungan(int *output, int jumlah_pembelian, int keuntungan_per_jual
 
 void initDataLogin();
 void initDataTali();
+void initDataPembeli();
+void initDataPembelian();
+void resetData();
 
 void doLogin(bool *is_authenticated, string username, string password);
 void doLogout();
@@ -75,10 +78,12 @@ int main(int argc, char const *argv[]) {
 
     initDataLogin();
     initDataTali();
+    initDataPembeli();
+    initDataPembelian();
 
     int menu;
-
     int jumlah_pembelian_tmp, total_pembelian_tmp, total_keuntungan_tmp;
+    string answer;
 
     do {
         printf("\n---= LOGIN FORM =---\n");
@@ -141,12 +146,17 @@ int main(int argc, char const *argv[]) {
                         } else {
                             printf("\n === Input Pembelian === \n");
 
+                            if (jumlah_tali_a == 0 && jumlah_tali_b == 0 && jumlah_tali_c == 0 && jumlah_tali_x == 0 && jumlah_tali_y == 0) {
+                                printf("\nStok semua tali habis[!]\n");
+                                break;
+                            }
+
                             while (true) {
-                                printf("Jenis tali (A/B/C/X/Y) : ");
+                                printf("Jenis tali (A/B/C/X/Y)  : ");
                                 scanf("%s", tipe_tali);
 
                                 if (strcmp(tipe_tali, "A") == 0 || strcmp(tipe_tali, "B") == 0 || strcmp(tipe_tali, "C") == 0 || strcmp(tipe_tali, "X") == 0 || strcmp(tipe_tali, "Y") == 0) {
-                                    printf("Panjang tali (m) : ");
+                                    printf("Panjang tali (m)        : ");
                                     scanf("%d", &panjang_tali);
 
                                     if (strcmp(tipe_tali, "A") == 0) {
@@ -187,18 +197,20 @@ int main(int argc, char const *argv[]) {
 
                             if (strcmp(tipe_tali, "X") == 0 || strcmp(tipe_tali, "Y") == 0) {
                                 if (strlen(nik) == 0 && strlen(pekerjaan) == 0 && strlen(alamat) == 0) {
-                                    printf("NIK : ");
-                                    scanf("%s", nik);
-                                    while (strlen(nik) != 16) {
-                                        printf("\nNIK harus 16 digit[!]");
-                                        printf("NIK : ");
+                                    while (true) {
+                                        printf("NIK                     : ");
                                         scanf("%s", nik);
+
+                                        if (strlen(nik) == 16)
+                                            break;
+                                        else
+                                            printf("\nNIK harus 16 digit[!]\n");
                                     }
 
-                                    printf("Pekerjaan : ");
+                                    printf("Pekerjaan               : ");
                                     scanf("%s", pekerjaan);
 
-                                    printf("Alamat : ");
+                                    printf("Alamat                  : ");
                                     scanf("%s", alamat);
                                 }
                             }
@@ -294,10 +306,21 @@ int main(int argc, char const *argv[]) {
                         break;
 
                     case 4:
+                        printf("\n === Reset Data === \n");
+                        printf("Yakin ingin reset data? (Y/n)");
+                        scanf("%s", answer);
+                        if (strcmp(answer, "Y") == 0) {
+                            resetData();
+                            printf("\n[OK] Reset data berhasil[!]\n");
+                        }
                         break;
 
                     case 5:
-                        printKeuntungan();
+                        if (!data_pembelian) {
+                            printf("\nBelum ada pembelian[!]\n");
+                        } else {
+                            printKeuntungan();
+                        }
                         break;
 
                     case 0:
@@ -319,7 +342,7 @@ int main(int argc, char const *argv[]) {
             } while (is_authenticated != 0);
         } else {
             printf("\n[Error] Username atau Password salah[!]\n");
-            toleransi -= 1;
+            subtractNumbers(&toleransi, toleransi, 1);
         }
     } while (toleransi != 0);
 
@@ -384,6 +407,51 @@ void initDataTali() {
     jumlah_tali_y = 100;
 }
 
+void initDataPembeli() {
+    data_pembeli = false;
+
+    strcpy(nama_pembeli, "");
+    strcpy(no_telpon, "");
+    strcpy(tanggal_datang, "");
+    strcpy(jam_datang, "");
+
+    strcpy(nik, "");
+    strcpy(pekerjaan, "");
+    strcpy(alamat, "");
+}
+
+void initDataPembelian() {
+    data_pembelian = false;
+
+    strcpy(tipe_tali, "");
+    panjang_tali = 0;
+    jumlah_pembelian_a = 0;
+    jumlah_pembelian_b = 0;
+    jumlah_pembelian_c = 0;
+    jumlah_pembelian_x = 0;
+    jumlah_pembelian_y = 0;
+
+    total_keuntungan_a = 0;
+    total_keuntungan_b = 0;
+    total_keuntungan_c = 0;
+    total_keuntungan_x = 0;
+    total_keuntungan_y = 0;
+    total_keuntungan_abcxy = 0;
+
+    total_pembelian_a = 0;
+    total_pembelian_b = 0;
+    total_pembelian_c = 0;
+    total_pembelian_x = 0;
+    total_pembelian_y = 0;
+    total_pembelian_abcxy = 0;
+}
+
+void resetData() {
+    initDataTali();
+    initDataPembeli();
+    initDataPembelian();
+}
+
 void doLogin(bool *is_authenticated, string username, string password) {
     if (strcmp(username, "Atma") == 0 && strcmp(password, "11385") == 0) {
         *is_authenticated = true;
@@ -431,11 +499,11 @@ void printRincian() {
         printf("Alamat              : %s\n", alamat);
     }
 
-    printf("\n[Tali A]  | %d \t| %d IDR \t|---> Total : %d IDR", jumlah_pembelian_a, harga_jual_tali_a, total_pembelian_a);
-    printf("\n[Tali B]  | %d \t| %d IDR \t|---> Total : %d IDR", jumlah_pembelian_b, harga_jual_tali_b, total_pembelian_b);
-    printf("\n[Tali C]  | %d \t| %d IDR \t|---> Total : %d IDR", jumlah_pembelian_c, harga_jual_tali_c, total_pembelian_c);
-    printf("\n[Tali X]  | %d \t| %d IDR \t|---> Total : %d IDR", jumlah_pembelian_x, harga_jual_tali_x, total_pembelian_x);
-    printf("\n[Tali Y]  | %d \t| %d IDR \t|---> Total : %d IDR", jumlah_pembelian_y, harga_jual_tali_y, total_pembelian_y);
+    printf("\n[ Tali A ] | %d \t| %d IDR \t|---> Total : %d IDR", jumlah_pembelian_a, harga_jual_tali_a, total_pembelian_a);
+    printf("\n[ Tali B ] | %d \t| %d IDR \t|---> Total : %d IDR", jumlah_pembelian_b, harga_jual_tali_b, total_pembelian_b);
+    printf("\n[ Tali C ] | %d \t| %d IDR \t|---> Total : %d IDR", jumlah_pembelian_c, harga_jual_tali_c, total_pembelian_c);
+    printf("\n[ Tali X ] | %d \t| %d IDR \t|---> Total : %d IDR", jumlah_pembelian_x, harga_jual_tali_x, total_pembelian_x);
+    printf("\n[ Tali Y ] | %d \t| %d IDR \t|---> Total : %d IDR", jumlah_pembelian_y, harga_jual_tali_y, total_pembelian_y);
 
     printf("\n");
     printf("\nTotal yang harus dibayar : %d IDR\n", total_pembelian_abcxy);
@@ -443,14 +511,14 @@ void printRincian() {
 
 void printKeuntungan() {
     printf("\n === Keuntungan === \n");
-    printf("\n[Keuntungan Tali A] = %d IDR", total_keuntungan_a);
-    printf("\n[Keuntungan Tali B] = %d IDR", total_keuntungan_b);
-    printf("\n[Keuntungan Tali C] = %d IDR", total_keuntungan_c);
-    printf("\n[Keuntungan Tali X] = %d IDR", total_keuntungan_x);
-    printf("\n[Keuntungan Tali Y] = %d IDR", total_keuntungan_y);
+    printf("\n[ Keuntungan Tali A ] = %d IDR", total_keuntungan_a);
+    printf("\n[ Keuntungan Tali B ] = %d IDR", total_keuntungan_b);
+    printf("\n[ Keuntungan Tali C ] = %d IDR", total_keuntungan_c);
+    printf("\n[ Keuntungan Tali X ] = %d IDR", total_keuntungan_x);
+    printf("\n[ Keuntungan Tali Y ] = %d IDR", total_keuntungan_y);
 
     printf("\n");
-    printf("\nTotal keuntungan : %d IDR\n", total_keuntungan_abcxy);
+    printf("\nTotal keuntungan      = %d IDR\n", total_keuntungan_abcxy);
 }
 
 void clear_screen_f() {
