@@ -103,7 +103,7 @@ int main(int argc, char const *argv[]) {
 }
 
 void initData(int *jumlah_tebakan, int *min_range, int *max_range, bool *sudah_bermain, bool *status_permainan_terakhir, bool *tampil_selisih_jarak, int *nilai_tebakan, int *tebakan_ke) {
-    *jumlah_tebakan = 3;
+    *jumlah_tebakan = 1;
     *min_range = 1;
     *max_range = 10;
 
@@ -281,6 +281,8 @@ void mulaiPermainan(int jumlah_tebakan, int min_range, int max_range, bool *suda
         }
         *sudah_bermain = true;
         *tebakan_ke += 1;
+        pause_f();
+        clear_screen_f();
     }
 }
 
