@@ -262,13 +262,21 @@ void mulaiPermainan(int jumlah_tebakan, int min_range, int max_range, bool *suda
             break;
         } else if (*nilai_tebakan - userInput <= range) {
             printf("\nTebakan anda salah dan semakin dekat[!]");
-            if (tampil_selisih_jarak)
-                printf("\nSelisih adalah %d\n", *nilai_tebakan - userInput);
+            if (tampil_selisih_jarak) {
+                if (*nilai_tebakan - userInput >= 1)
+                    printf("\nSelisih adalah %d\n", *nilai_tebakan - userInput);
+                else
+                    printf("\nSelisih adalah %d\n", (*nilai_tebakan - userInput) * -1);
+            }
             printf("\nSilahkan coba lagi[!]\n");
         } else {
             printf("\nTebakan anda salah dan semakin jauh[!]");
-            if (tampil_selisih_jarak)
-                printf("\nSelisih adalah %d\n", *nilai_tebakan - userInput);
+            if (tampil_selisih_jarak) {
+                if (*nilai_tebakan - userInput >= 1)
+                    printf("\nSelisih adalah %d\n", *nilai_tebakan - userInput);
+                else
+                    printf("\nSelisih adalah %d\n", (*nilai_tebakan - userInput) * -1);
+            }
             printf("\nSilahkan coba lagi[!]\n");
         }
 
@@ -279,11 +287,11 @@ void mulaiPermainan(int jumlah_tebakan, int min_range, int max_range, bool *suda
             *status_permainan_terakhir = false;
             break;
         }
-        *sudah_bermain = true;
         *tebakan_ke += 1;
         pause_f();
         clear_screen_f();
     }
+    *sudah_bermain = true;
 }
 
 void exitProgram() {
