@@ -96,7 +96,10 @@ int main(int argc, char const *argv[]) {
         printf("Password (11385) : ");
         scanf("%s", password);
 
-        doLogin(&is_authenticated, username, password);
+        if (strcmp(username, "0") != 0 && strcmp(password, "0") != 0)
+            doLogin(&is_authenticated, username, password);
+        else
+            break;
 
         if (is_authenticated) {
             do {
