@@ -32,6 +32,8 @@ int hitungTotalHarga(int jumlah_pembelian_hydrocodone, int jumlah_pembelian_lisi
 int hitungPajak(int total_harga);
 int hitungDiskon(int total_harga_pajak);
 int hitungDiskonMember(int total_harga_pajak);
+
+int orderObat(int jumlah_pembelian_obat, int n);
 int tambahJumlahPembelianObat(int jumlah_pembelian_obat, int n);
 int kurangJumlahPembelianObat(int jumlah_pembelian_obat, int n);
 
@@ -117,45 +119,25 @@ int main(int argc, char const *argv[]) {
                             case 1:
                                 printf("\nMasukan jumlah pembelian : ");
                                 scanf("%d", &jumlah_pembelian_tmp);
-                                if (jumlah_pembelian_tmp >= 1) {
-                                    printf("\nBerhasil memesan dengan jumlah %d \n", jumlah_pembelian_tmp);
-                                    jumlah_pembelian_hydrocodone += jumlah_pembelian_tmp;
-                                } else {
-                                    printf("\nERROR[!]\n");
-                                }
+                                jumlah_pembelian_hydrocodone = orderObat(jumlah_pembelian_hydrocodone, jumlah_pembelian_tmp);
                                 break;
 
                             case 2:
                                 printf("\nMasukan jumlah pembelian : ");
                                 scanf("%d", &jumlah_pembelian_tmp);
-                                if (jumlah_pembelian_tmp >= 1) {
-                                    printf("\nBerhasil memesan dengan jumlah %d \n", jumlah_pembelian_tmp);
-                                    jumlah_pembelian_lisinopril += jumlah_pembelian_tmp;
-                                } else {
-                                    printf("\nERROR[!]\n");
-                                }
+                                jumlah_pembelian_lisinopril = orderObat(jumlah_pembelian_lisinopril, jumlah_pembelian_tmp);
                                 break;
 
                             case 3:
                                 printf("\nMasukan jumlah pembelian : ");
                                 scanf("%d", &jumlah_pembelian_tmp);
-                                if (jumlah_pembelian_tmp >= 1) {
-                                    printf("\nBerhasil memesan dengan jumlah %d \n", jumlah_pembelian_tmp);
-                                    jumlah_pembelian_antibiotika_moxicillin += jumlah_pembelian_tmp;
-                                } else {
-                                    printf("\nERROR[!]\n");
-                                }
+                                jumlah_pembelian_antibiotika_moxicillin = orderObat(jumlah_pembelian_antibiotika_moxicillin, jumlah_pembelian_tmp);
                                 break;
 
                             case 4:
                                 printf("\nMasukan jumlah pembelian : ");
                                 scanf("%d", &jumlah_pembelian_tmp);
-                                if (jumlah_pembelian_tmp >= 1) {
-                                    printf("\nBerhasil memesan dengan jumlah %d \n", jumlah_pembelian_tmp);
-                                    jumlah_pembelian_epogen += jumlah_pembelian_tmp;
-                                } else {
-                                    printf("\nERROR[!]\n");
-                                }
+                                jumlah_pembelian_epogen = orderObat(jumlah_pembelian_epogen, jumlah_pembelian_tmp);
                                 break;
 
                             case 0:
@@ -529,6 +511,16 @@ int hitungDiskon(int total_harga_pajak) {
 
 int hitungDiskonMember(int total_harga_pajak) {
     return total_harga_pajak * 0.055;
+}
+
+int orderObat(int jumlah_pembelian_obat, int n) {
+    if (n >= 1) {
+        printf("\nBerhasil memesan dengan jumlah %d \n", jumlah_pembelian_obat);
+        return jumlah_pembelian_obat + n;
+    } else {
+        printf("\nPesanan tidak boleh kurang dari 1[!]\n");
+        return jumlah_pembelian_obat;
+    }
 }
 
 int tambahJumlahPembelianObat(int jumlah_pembelian_obat, int n) {
