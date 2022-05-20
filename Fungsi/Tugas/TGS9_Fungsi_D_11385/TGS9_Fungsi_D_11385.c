@@ -21,6 +21,7 @@ void initDataPembelian();
 
 void tampilMenu();
 void tampilListObat();
+void tampilRincianPesanan();
 
 bool checkLogin(string username, string password);
 bool isOddNumber(int n);
@@ -30,6 +31,9 @@ bool isValidOrderNumber(int order_number);
 int hitungTotalHarga(int jumlah_pembelian_hydrocodone, int jumlah_pembelian_lisinopril, int jumlah_pembelian_antibiotika_moxicillin, int jumlah_pembelian_epogen);
 int hitungPajak(int total_harga);
 int hitungDiskon(int total_harga_pajak);
+int hitungDiskonMember(int total_harga_pajak);
+int tambahJumlahPembelianObat(int jumlah_pembelian_obat, int n);
+int kurangJumlahPembelianObat(int jumlah_pembelian_obat, int n);
 
 void clear_screen_f();
 void pause_f();
@@ -45,10 +49,11 @@ int harga_hydrocodone, harga_lisinopril, harga_antibiotika_moxicillin, harga_epo
 bool status_pesanan;
 
 string nama_pembeli;
+bool apakah_member;
 int no_pesanan;
 
 int jumlah_pembelian_hydrocodone, jumlah_pembelian_lisinopril, jumlah_pembelian_antibiotika_moxicillin, jumlah_pembelian_epogen;
-int total_harga_tanpa_pajak, total_pajak, total_harga_pajak, total_diskon, total_uang_pembeli;
+int total_harga_tanpa_pajak, total_pajak, total_harga_pajak, total_diskon, total_diskon_member, total_uang_pembeli;
 
 // Benidiktus Violaz Morello Anjolie4
 // 210711385
@@ -64,6 +69,7 @@ int main(int argc, char const *argv[]) {
 
     int menu_main;
     int menu_apotek;
+    int menu_edit_pesanan;
     int jumlah_pembelian_tmp;
     string answer;
 
@@ -159,11 +165,20 @@ int main(int argc, char const *argv[]) {
                                 while (true) {
                                     printf("\nMasukan nomor pesanan [1 - 30 Ganjil]   : ");
                                     scanf("%d", &no_pesanan);
-                                    if (isValidOrderNumber(no_pesanan)) {
+                                    if (isValidOrderNumber(no_pesanan))
                                         break;
-                                    } else {
+                                    else
                                         printf("\nHarus antara 1 - 30 dan Ganjil[!]\n");
-                                    }
+                                }
+
+                                while (true) {
+                                    printf("\nApakah anda adalah member? (Y/n)");
+                                    scanf("%s", answer);
+                                    if (strcmp(answer, "Y") == 0)
+                                        apakah_member = true;
+                                    else
+                                        apakah_member = false;
+                                    break;
                                 }
 
                                 printf("\n ---= RINCIAN PESANAN =--- ");
@@ -205,12 +220,15 @@ int main(int argc, char const *argv[]) {
                     total_harga_pajak = total_harga_tanpa_pajak + total_pajak;
                     if (jumlah_pembelian_antibiotika_moxicillin >= 5 && jumlah_pembelian_epogen >= 2)
                         total_diskon = hitungDiskon(total_harga_pajak);
+                    if (apakah_member)
+                        total_diskon_member = hitungDiskonMember(total_harga_pajak - total_diskon);
 
                     printf("\n\n ---= TOTAL =--- ");
                     printf("\nTotal harga (tanpa pajak)   : %d", total_harga_tanpa_pajak);
                     printf("\nTotal pajak                 : %d", total_pajak);
                     printf("\nTotal harga + pajak         : %d", total_harga_pajak);
                     printf("\nTotal diskon                : %d", total_diskon);
+                    printf("\nTotal diskon member         : %d", total_diskon_member);
 
                     printf("\n\nLanjut ke pembayaran? (Y/n)");
                     scanf("%s", answer);
@@ -221,11 +239,11 @@ int main(int argc, char const *argv[]) {
                         while (true) {
                             printf("\nMasukan uang                : ");
                             scanf("%d", &total_uang_pembeli);
-
                             if (total_uang_pembeli >= total_harga_pajak) {
                                 printf("Total harga + pajak         : %d", total_harga_pajak);
                                 printf("\nTotal diskon                : %d", total_diskon);
-                                printf("\nKembalian                   : %d", total_uang_pembeli - total_harga_pajak - total_diskon);
+                                printf("\nTotal diskon member         : %d", total_diskon_member);
+                                printf("\nKembalian                   : %d", total_uang_pembeli - total_harga_pajak + total_diskon + total_diskon_member);
                                 printf("\n\nPembayaran berhasil[!]\n");
                                 initDataPembelian();
                                 break;
@@ -248,6 +266,144 @@ int main(int argc, char const *argv[]) {
                         printf("\nData berhasil dihapus[!]\n");
                         initDataPembelian();
                     }
+                }
+                break;
+
+            case 5:
+                if (!is_authenticated || !status_pesanan) {
+                    printf("\nTidak bisa akses[!]\n");
+                } else {
+                    do {
+                        clear_screen_f();
+
+                        tampilRincianPesanan();
+
+                        printf("\nMenu >> ");
+                        scanf("%d", &menu_edit_pesanan);
+
+                        switch (menu_edit_pesanan) {
+                            case 1:
+                                printf("\n[1] Tambah");
+                                printf("\n[2] Kurang");
+                                printf("\nMenu >> ");
+                                scanf("%d", &menu_edit_pesanan);
+                                switch (menu_edit_pesanan) {
+                                    case 1:
+                                        printf("\nMasukan jumlah tambah : ");
+                                        scanf("%d", &jumlah_pembelian_tmp);
+                                        jumlah_pembelian_hydrocodone = tambahJumlahPembelianObat(jumlah_pembelian_hydrocodone, jumlah_pembelian_tmp);
+                                        break;
+
+                                    case 2:
+                                        if (jumlah_pembelian_hydrocodone == 0) {
+                                            printf("\nAnda belum memesan obat ini[!]\n");
+                                            break;
+                                        }
+                                        printf("\nMasukan jumlah kurang : ");
+                                        scanf("%d", &jumlah_pembelian_tmp);
+                                        jumlah_pembelian_hydrocodone = kurangJumlahPembelianObat(jumlah_pembelian_hydrocodone, jumlah_pembelian_tmp);
+                                        break;
+
+                                    default:
+                                        printf("\nERROR[!]\n");
+                                        break;
+                                }
+                                break;
+
+                            case 2:
+                                printf("\n[1] Tambah");
+                                printf("\n[2] Kurang");
+                                printf("\nMenu >> ");
+                                scanf("%d", &menu_edit_pesanan);
+                                switch (menu_edit_pesanan) {
+                                    case 1:
+                                        printf("\nMasukan jumlah tambah : ");
+                                        scanf("%d", &jumlah_pembelian_tmp);
+                                        jumlah_pembelian_lisinopril = tambahJumlahPembelianObat(jumlah_pembelian_lisinopril, jumlah_pembelian_tmp);
+                                        break;
+
+                                    case 2:
+                                        if (jumlah_pembelian_lisinopril == 0) {
+                                            printf("\nAnda belum memesan obat ini[!]\n");
+                                            break;
+                                        }
+                                        printf("\nMasukan jumlah kurang : ");
+                                        scanf("%d", &jumlah_pembelian_tmp);
+                                        jumlah_pembelian_lisinopril = kurangJumlahPembelianObat(jumlah_pembelian_lisinopril, jumlah_pembelian_tmp);
+                                        break;
+
+                                    default:
+                                        printf("\nERROR[!]\n");
+                                        break;
+                                }
+                                break;
+
+                            case 3:
+                                printf("\n[1] Tambah");
+                                printf("\n[2] Kurang");
+                                printf("\nMenu >> ");
+                                scanf("%d", &menu_edit_pesanan);
+                                switch (menu_edit_pesanan) {
+                                    case 1:
+                                        printf("\nMasukan jumlah tambah : ");
+                                        scanf("%d", &jumlah_pembelian_tmp);
+                                        jumlah_pembelian_antibiotika_moxicillin = tambahJumlahPembelianObat(jumlah_pembelian_antibiotika_moxicillin, jumlah_pembelian_tmp);
+                                        break;
+
+                                    case 2:
+                                        if (jumlah_pembelian_antibiotika_moxicillin == 0) {
+                                            printf("\nAnda belum memesan obat ini[!]\n");
+                                            break;
+                                        }
+                                        printf("\nMasukan jumlah kurang : ");
+                                        scanf("%d", &jumlah_pembelian_tmp);
+                                        jumlah_pembelian_antibiotika_moxicillin = kurangJumlahPembelianObat(jumlah_pembelian_antibiotika_moxicillin, jumlah_pembelian_tmp);
+                                        break;
+
+                                    default:
+                                        printf("\nERROR[!]\n");
+                                        break;
+                                }
+                                break;
+
+                            case 4:
+                                printf("\n[1] Tambah");
+                                printf("\n[2] Kurang");
+                                printf("\nMenu >> ");
+                                scanf("%d", &menu_edit_pesanan);
+                                switch (menu_edit_pesanan) {
+                                    case 1:
+                                        printf("\nMasukan jumlah tambah : ");
+                                        scanf("%d", &jumlah_pembelian_tmp);
+                                        jumlah_pembelian_epogen = tambahJumlahPembelianObat(jumlah_pembelian_epogen, jumlah_pembelian_tmp);
+                                        break;
+
+                                    case 2:
+                                        if (jumlah_pembelian_epogen == 0) {
+                                            printf("\nAnda belum memesan obat ini[!]\n");
+                                            break;
+                                        }
+                                        printf("\nMasukan jumlah kurang : ");
+                                        scanf("%d", &jumlah_pembelian_tmp);
+                                        jumlah_pembelian_epogen = kurangJumlahPembelianObat(jumlah_pembelian_epogen, jumlah_pembelian_tmp);
+                                        break;
+
+                                    default:
+                                        printf("\nERROR[!]\n");
+                                        break;
+                                }
+                                break;
+
+                            case 0:
+                                printf("\nBerhasil[!]\n");
+                                break;
+
+                            default:
+                                printf("\nMenu tidak tersedia[!]\n");
+                                break;
+                        }
+                        pause_f();
+                    } while (menu_edit_pesanan != 0);
                 }
                 break;
 
@@ -284,6 +440,7 @@ void initDataPembelian() {
     status_pesanan = false;
 
     strcpy(nama_pembeli, "");
+    apakah_member = false;
     no_pesanan = 1;
 
     jumlah_pembelian_hydrocodone = 0;
@@ -295,6 +452,7 @@ void initDataPembelian() {
     total_pajak = 0;
     total_harga_pajak = 0;
     total_diskon = 0;
+    total_diskon_member = 0;
     total_uang_pembeli = 0;
 }
 
@@ -316,6 +474,16 @@ void tampilListObat() {
     printf("\n[3] Antibiotik Amoxicillin    %d IDR", harga_antibiotika_moxicillin);
     printf("\n[4] Epogen                    %d IDR", harga_epogen);
     printf("\n[0] Keluar");
+    printf("\n---------------------");
+}
+
+void tampilRincianPesanan() {
+    printf("\n ---= RINCIAN PESANAN =--- ");
+    printf("\n[1] Hydrocodone               %d", jumlah_pembelian_hydrocodone);
+    printf("\n[2] Lisinopril                %d", jumlah_pembelian_lisinopril);
+    printf("\n[3] Antibiotik Amoxicillin    %d", jumlah_pembelian_antibiotika_moxicillin);
+    printf("\n[4] Epogen                    %d", jumlah_pembelian_epogen);
+    printf("\n[0] Selesai");
     printf("\n---------------------");
 }
 
@@ -357,6 +525,35 @@ int hitungPajak(int total_harga) {
 
 int hitungDiskon(int total_harga_pajak) {
     return total_harga_pajak * 0.0022;
+}
+
+int hitungDiskonMember(int total_harga_pajak) {
+    return total_harga_pajak * 0.055;
+}
+
+int tambahJumlahPembelianObat(int jumlah_pembelian_obat, int n) {
+    if (n >= 1) {
+        printf("\nBerhasil [!]\n");
+        return jumlah_pembelian_obat + n;
+    } else {
+        printf("\nTidak boleh kurang dari 1[!]\n");
+        return jumlah_pembelian_obat;
+    }
+}
+
+int kurangJumlahPembelianObat(int jumlah_pembelian_obat, int n) {
+    if (n >= 1) {
+        if (jumlah_pembelian_obat - n >= 0) {
+            printf("\nBerhasil [!]\n");
+            return jumlah_pembelian_obat - n;
+        } else {
+            printf("\nTidak boleh lebih dari %d [!]\n", jumlah_pembelian_obat);
+            return jumlah_pembelian_obat;
+        }
+    } else {
+        printf("\nTidak boleh kurang dari 1[!]\n");
+        return jumlah_pembelian_obat;
+    }
 }
 
 void clear_screen_f() {
