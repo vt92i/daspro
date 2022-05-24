@@ -224,7 +224,8 @@ int main(int argc, char const *argv[]) {
                             printf("\nMasukan uang                : ");
                             scanf("%d", &total_uang_pembeli);
                             if (total_uang_pembeli >= total_harga_pajak) {
-                                printf("Total harga + pajak         : %'d IDR", total_harga_pajak);
+                                printf("Total uang pembeli          : %'d IDR", total_uang_pembeli);
+                                printf("\nTotal harga + pajak         : %'d IDR", total_harga_pajak);
                                 printf("\nTotal diskon                : %'d IDR", total_diskon);
                                 printf("\nTotal diskon member         : %'d IDR", total_diskon_member);
                                 printf("\nKembalian                   : %'d IDR", total_uang_pembeli - total_harga_pajak + total_diskon + total_diskon_member);
