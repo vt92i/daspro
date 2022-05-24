@@ -63,9 +63,10 @@ int total_harga_tanpa_pajak, total_pajak, total_harga_pajak, total_diskon, total
 // D
 
 int main(int argc, char const *argv[]) {
-    if (strcmp(PLATFORM_NAME, "linux") == 0)
+    if (strcmp(PLATFORM_NAME, "linux") == 0) {
         pause_f();
-    setlocale(LC_NUMERIC, "en_US");
+        setlocale(LC_NUMERIC, "en_US");
+    }
 
     initDataLogin();
     initDataObat();
