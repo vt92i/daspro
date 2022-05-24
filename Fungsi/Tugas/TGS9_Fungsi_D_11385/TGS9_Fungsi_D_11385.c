@@ -8,6 +8,7 @@
     #include <ncurses.h>
 #endif
 
+#include <locale.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -64,6 +65,7 @@ int total_harga_tanpa_pajak, total_pajak, total_harga_pajak, total_diskon, total
 int main(int argc, char const *argv[]) {
     if (strcmp(PLATFORM_NAME, "linux") == 0)
         pause_f();
+    setlocale(LC_NUMERIC, "en_US");
 
     initDataLogin();
     initDataObat();
@@ -206,11 +208,11 @@ int main(int argc, char const *argv[]) {
                         total_diskon_member = hitungDiskonMember(total_harga_pajak - total_diskon);
 
                     printf("\n\n ---= TOTAL =--- ");
-                    printf("\nTotal harga (tanpa pajak)   : %d", total_harga_tanpa_pajak);
-                    printf("\nTotal pajak                 : %d", total_pajak);
-                    printf("\nTotal harga + pajak         : %d", total_harga_pajak);
-                    printf("\nTotal diskon                : %d", total_diskon);
-                    printf("\nTotal diskon member         : %d", total_diskon_member);
+                    printf("\nTotal harga (tanpa pajak)   : %'d IDR", total_harga_tanpa_pajak);
+                    printf("\nTotal pajak                 : %'d IDR", total_pajak);
+                    printf("\nTotal harga + pajak         : %'d IDR", total_harga_pajak);
+                    printf("\nTotal diskon                : %'d IDR", total_diskon);
+                    printf("\nTotal diskon member         : %'d IDR", total_diskon_member);
 
                     printf("\n\nLanjut ke pembayaran? (Y/n)");
                     scanf("%s", answer);
@@ -222,10 +224,10 @@ int main(int argc, char const *argv[]) {
                             printf("\nMasukan uang                : ");
                             scanf("%d", &total_uang_pembeli);
                             if (total_uang_pembeli >= total_harga_pajak) {
-                                printf("Total harga + pajak         : %d", total_harga_pajak);
-                                printf("\nTotal diskon                : %d", total_diskon);
-                                printf("\nTotal diskon member         : %d", total_diskon_member);
-                                printf("\nKembalian                   : %d", total_uang_pembeli - total_harga_pajak + total_diskon + total_diskon_member);
+                                printf("Total harga + pajak         : %'d IDR", total_harga_pajak);
+                                printf("\nTotal diskon                : %'d IDR", total_diskon);
+                                printf("\nTotal diskon member         : %'d IDR", total_diskon_member);
+                                printf("\nKembalian                   : %'d IDR", total_uang_pembeli - total_harga_pajak + total_diskon + total_diskon_member);
                                 printf("\n\nPembayaran berhasil[!]\n");
                                 initDataPembelian();
                                 break;
@@ -451,10 +453,10 @@ void tampilMenu() {
 
 void tampilListObat() {
     printf("\n ---= DAFTAR OBAT =--- ");
-    printf("\n[1] Hydrocodone               %d IDR", harga_hydrocodone);
-    printf("\n[2] Lisinopril                %d IDR", harga_lisinopril);
-    printf("\n[3] Antibiotik Amoxicillin    %d IDR", harga_antibiotika_moxicillin);
-    printf("\n[4] Epogen                    %d IDR", harga_epogen);
+    printf("\n[1] Hydrocodone               %'d IDR", harga_hydrocodone);
+    printf("\n[2] Lisinopril                %'d IDR", harga_lisinopril);
+    printf("\n[3] Antibiotik Amoxicillin    %'d IDR", harga_antibiotika_moxicillin);
+    printf("\n[4] Epogen                    %'d IDR", harga_epogen);
     printf("\n[0] Keluar");
     printf("\n---------------------");
 }
