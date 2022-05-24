@@ -515,7 +515,7 @@ int hitungDiskonMember(int total_harga_pajak) {
 
 int orderObat(int jumlah_pembelian_obat, int n) {
     if (n >= 1) {
-        printf("\nBerhasil memesan dengan jumlah %d \n", jumlah_pembelian_obat);
+        printf("\nBerhasil memesan dengan jumlah %d \n", n);
         return jumlah_pembelian_obat + n;
     } else {
         printf("\nPesanan tidak boleh kurang dari 1[!]\n");
