@@ -18,7 +18,7 @@ typedef char string[64];
 
 void showData(string arr[]);
 int findData(string arr[], string data);
-void editData(string arr[], int index, string new_data);
+void updateData(string arr[], int index, string new_data);
 void reverseData(string arr[]);
 
 void clear_screen_f();
@@ -62,6 +62,7 @@ int main(int argc, char const *argv[]) {
         if (strcmp(username, "Zooey") == 0 && strcmp(password, "zooeyjaya") == 0) {
             strcpy(status_user, "Pengelola");
             printf("\nBerhasil login sebagai %s [!]\n", status_user);
+            pause_f();
 
             while (menu != 0) {
                 clear_screen_f();
@@ -90,8 +91,8 @@ int main(int argc, char const *argv[]) {
                             printf("Masukan nama kelas : ");
                             scanf("%s", kelas_baru);
 
-                            editData(dataHewan, index, hewan_baru);
-                            editData(dataKelas, index, kelas_baru);
+                            updateData(dataHewan, index, hewan_baru);
+                            updateData(dataKelas, index, kelas_baru);
 
                             printf("\nBerhasil input [!]\n");
 
@@ -112,7 +113,7 @@ int main(int argc, char const *argv[]) {
                             if (index != -1)
                                 break;
                             else
-                                printf("\nHewan %s tidak ditemukan\n", cari_hewan);
+                                printf("\nHewan %s tidak ditemukan [!]\n", cari_hewan);
                         }
 
                         while (true) {
@@ -128,8 +129,8 @@ int main(int argc, char const *argv[]) {
                         printf("Masukan nama kelas yang baru         : ");
                         scanf("%s", kelas_baru);
 
-                        editData(dataHewan, index, hewan_baru);
-                        editData(dataKelas, index, kelas_baru);
+                        updateData(dataHewan, index, hewan_baru);
+                        updateData(dataKelas, index, kelas_baru);
 
                         printf("\n [ Data Hewan ]\n");
                         showData(dataHewan);
@@ -152,11 +153,11 @@ int main(int argc, char const *argv[]) {
                             if (index != -1)
                                 break;
                             else
-                                printf("\nHewan %s tidak ditemukan\n", cari_hewan);
+                                printf("\nHewan %s tidak ditemukan [!]\n", cari_hewan);
                         }
 
-                        editData(dataHewan, index, "-");
-                        editData(dataKelas, index, "-");
+                        updateData(dataHewan, index, "-");
+                        updateData(dataKelas, index, "-");
 
                         printf("\n [ Data Hewan ]\n");
                         showData(dataHewan);
@@ -168,27 +169,41 @@ int main(int argc, char const *argv[]) {
 
                         break;
 
-                    case 5:
-                        if (!is_data_reversed) {
-                            reverseData(dataHewan);
-                            reverseData(dataKelas);
-                            is_data_reversed = true;
-                        }
+                    case 4:
+                        // TODO : Sort Data (Bubble Sort)
+                        printf("\n---= SORT HEWAN =---\n");
 
+                        printf("\nBerhasil sort [!]\n");
+
+                        break;
+
+                    case 5:
                         printf("\n---= REVERSE HEWAN =---\n");
 
+                        if (is_data_reversed) {
+                            is_data_reversed = false;
+                            reverseData(dataHewan);
+                            reverseData(dataKelas);
+                        }
+
                         printf("\n [ SEBELUM REVERSE ]");
-                        printf("\n [ Data Hewan ]\n");
+                        printf("\n [ Data Hewan ]");
                         showData(dataHewan);
 
-                        printf("\n [ Data Kelas ]\n");
+                        printf("\n [ Data Kelas ]");
                         showData(dataKelas);
 
+                        if (!is_data_reversed) {
+                            is_data_reversed = true;
+                            reverseData(dataHewan);
+                            reverseData(dataKelas);
+                        }
+
                         printf("\n [ SESUDAH REVERSE ]");
-                        printf("\n [ Data Hewan ]\n");
+                        printf("\n [ Data Hewan ]");
                         showData(dataHewan);
 
-                        printf("\n [ Data Kelas ]\n");
+                        printf("\n [ Data Kelas ]");
                         showData(dataKelas);
 
                         printf("\nBerhasil reverse [!]\n");
@@ -221,6 +236,7 @@ int main(int argc, char const *argv[]) {
         if (strcmp(username, "guest") == 0 && strcmp(password, "guest") == 0) {
             strcpy(status_user, "Guest");
             printf("\nBerhasil login sebagai %s [!]\n", status_user);
+            pause_f();
 
             while (menu != 0) {
                 clear_screen_f();
@@ -277,6 +293,8 @@ int main(int argc, char const *argv[]) {
 void showData(string arr[]) {
     int i;
     for (i = 0; i < ARRAY_LENGTH; i++) {
+        if (i % 4 == 0)
+            printf("\n| ");
         printf("%s | ", arr[i]);
     }
     printf("\n");
@@ -291,7 +309,7 @@ int findData(string arr[], string data) {
     return -1;
 }
 
-void editData(string arr[], int index, string new_data) {
+void updateData(string arr[], int index, string new_data) {
     strcpy(arr[index], new_data);
 }
 
