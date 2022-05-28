@@ -43,6 +43,7 @@ int main(int argc, char const *argv[]) {
     string cari_hewan, hewan_baru, kelas_baru;
     string user_input;
     string hypen = "-";
+
     int index;
     int menu;
 
@@ -74,6 +75,12 @@ int main(int argc, char const *argv[]) {
             while (menu != 0) {
                 clear_screen_f();
 
+                strcpy(cari_hewan, "");
+                strcpy(hewan_baru, "");
+                strcpy(kelas_baru, "");
+                strcpy(user_input, "");
+                menu = -1;
+
                 printf("\n---= MENU =---\n");
                 printf("1. Input Hewan\n");
                 printf("2. Edit Hewan\n");
@@ -87,19 +94,36 @@ int main(int argc, char const *argv[]) {
                 fgets(user_input, STRING_LENGTH, stdin);
                 sscanf(user_input, "%d", &menu);
 
+                if (menu >= 1 && menu <= 6)
+                    clear_screen_f();
+
                 switch (menu) {
                     case 1:
+                        printf("\n---= INPUT HEWAN =---\n");
+
                         index = findData(dataHewan, hypen);
-
                         if (index != -1) {
-                            printf("\n---= INPUT HEWAN =---\n");
-                            printf("Masukan nama hewan : ");
-                            fgets(user_input, STRING_LENGTH, stdin);
-                            sscanf(user_input, "%[^\n]", hewan_baru);
+                            while (true) {
+                                printf("Masukan nama hewan : ");
+                                fgets(user_input, STRING_LENGTH, stdin);
+                                sscanf(user_input, "%[^\n]", hewan_baru);
 
-                            printf("Masukan nama kelas : ");
-                            fgets(user_input, STRING_LENGTH, stdin);
-                            sscanf(user_input, "%[^\n]", kelas_baru);
+                                if (strlen(hewan_baru) != 0)
+                                    break;
+                                else
+                                    printf("\nNama hewan tidak boleh kosong [!]\n");
+                            }
+
+                            while (true) {
+                                printf("Masukan nama kelas : ");
+                                fgets(user_input, STRING_LENGTH, stdin);
+                                sscanf(user_input, "%[^\n]", kelas_baru);
+
+                                if (strlen(kelas_baru) != 0)
+                                    break;
+                                else
+                                    printf("\nNama kelas tidak boleh kosong [!]\n");
+                            }
 
                             updateData(dataHewan, index, hewan_baru);
                             updateData(dataKelas, index, kelas_baru);
@@ -120,11 +144,16 @@ int main(int argc, char const *argv[]) {
                             fgets(user_input, STRING_LENGTH, stdin);
                             sscanf(user_input, "%[^\n]", cari_hewan);
 
+                            if (strlen(cari_hewan) == 0) {
+                                printf("\nNama hewan tidak boleh kosong [!]\n");
+                                continue;
+                            }
+
                             index = findData(dataHewan, cari_hewan);
                             if (index != -1)
                                 break;
                             else
-                                printf("\nHewan %s tidak ditemukan [!]\n", cari_hewan);
+                                printf("\nHewan [ %s ] tidak ditemukan [!]\n", cari_hewan);
                         }
 
                         while (true) {
@@ -132,15 +161,29 @@ int main(int argc, char const *argv[]) {
                             fgets(user_input, STRING_LENGTH, stdin);
                             sscanf(user_input, "%[^\n]", hewan_baru);
 
+                            if (strlen(hewan_baru) == 0) {
+                                printf("\nNama hewan baru tidak boleh kosong [!]\n");
+                                continue;
+                            }
+
                             if (strcmp(hewan_baru, cari_hewan) != 0)
                                 break;
                             else
                                 printf("\nNama hewan tidak boleh sama dengan nama hewan sebelumnya [!]\n");
                         }
 
-                        printf("Masukan nama kelas yang baru         : ");
-                        fgets(user_input, STRING_LENGTH, stdin);
-                        sscanf(user_input, "%[^\n]", kelas_baru);
+                        while (true) {
+                            printf("Masukan nama kelas yang baru         : ");
+                            fgets(user_input, STRING_LENGTH, stdin);
+                            sscanf(user_input, "%[^\n]", kelas_baru);
+
+                            if (strlen(kelas_baru) == 0) {
+                                printf("\nNama kelas baru tidak boleh kosong [!]\n");
+                                continue;
+                            } else {
+                                break;
+                            }
+                        }
 
                         updateData(dataHewan, index, hewan_baru);
                         updateData(dataKelas, index, kelas_baru);
@@ -163,11 +206,16 @@ int main(int argc, char const *argv[]) {
                             fgets(user_input, STRING_LENGTH, stdin);
                             sscanf(user_input, "%[^\n]", cari_hewan);
 
+                            if (strlen(cari_hewan) == 0) {
+                                printf("\nNama hewan tidak boleh kosong [!]\n");
+                                continue;
+                            }
+
                             index = findData(dataHewan, cari_hewan);
                             if (index != -1)
                                 break;
                             else
-                                printf("\nHewan %s tidak ditemukan [!]\n", cari_hewan);
+                                printf("\nHewan [ %s ] tidak ditemukan [!]\n", cari_hewan);
                         }
 
                         updateData(dataHewan, index, hypen);
@@ -259,6 +307,10 @@ int main(int argc, char const *argv[]) {
             while (menu != 0) {
                 clear_screen_f();
 
+                strcpy(cari_hewan, "");
+                strcpy(user_input, "");
+                menu = -1;
+
                 printf("\n---= MENU =---\n");
                 printf("1. Cari Hewan\n");
                 printf("0. Exit\n");
@@ -266,6 +318,9 @@ int main(int argc, char const *argv[]) {
                 printf("\nMenu >> ");
                 fgets(user_input, STRING_LENGTH, stdin);
                 sscanf(user_input, "%d", &menu);
+
+                if (menu == 1)
+                    clear_screen_f();
 
                 switch (menu) {
                     case 1:
