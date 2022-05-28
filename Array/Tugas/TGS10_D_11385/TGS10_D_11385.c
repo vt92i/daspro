@@ -20,6 +20,7 @@ typedef char string[STRING_LENGTH];
 void showData(string arr[]);
 int findData(string arr[], string data);
 void updateData(string arr[], int index, string new_data);
+void sortData(string arr0[], string arr1[]);
 void reverseData(string arr[]);
 
 void clear_screen_f();
@@ -42,7 +43,7 @@ int main(int argc, char const *argv[]) {
     string username, password, status_user;
     string cari_hewan, hewan_baru, kelas_baru;
     string user_input;
-    string hypen = "-";
+    string hyphen = "-";
 
     int index;
     int menu;
@@ -101,7 +102,7 @@ int main(int argc, char const *argv[]) {
                     case 1:
                         printf("\n---= INPUT HEWAN =---\n");
 
-                        index = findData(dataHewan, hypen);
+                        index = findData(dataHewan, hyphen);
                         if (index != -1) {
                             while (true) {
                                 printf("Masukan nama hewan : ");
@@ -218,8 +219,8 @@ int main(int argc, char const *argv[]) {
                                 printf("\nHewan [ %s ] tidak ditemukan [!]\n", cari_hewan);
                         }
 
-                        updateData(dataHewan, index, hypen);
-                        updateData(dataKelas, index, hypen);
+                        updateData(dataHewan, index, hyphen);
+                        updateData(dataKelas, index, hyphen);
 
                         printf("\n [ Data Hewan ]\n");
                         showData(dataHewan);
@@ -232,13 +233,38 @@ int main(int argc, char const *argv[]) {
                         break;
 
                     case 4:
-                        // TODO : Sort Data (Bubble Sort)
-                        if (!is_data_sorted) {
-                            is_data_sorted = true;
+                        printf("\n---= SORT HEWAN =---\n");
+
+                        index = findData(dataHewan, hyphen);
+                        if (index != -1) {
+                            printf("\nData hewan harus sudah terisi penuh [!]\n");
+                            break;
                         }
 
-                        printf("\n---= SORT HEWAN =---\n");
-                        // ! Code Here
+                        if (is_data_sorted) {
+                            is_data_sorted = false;
+                            sortData(dataHewan, dataKelas);
+                        }
+
+                        printf("\n [ SEBELUM SORT ]");
+                        printf("\n [ Data Hewan ]");
+                        showData(dataHewan);
+
+                        printf("\n [ Data Kelas ]");
+                        showData(dataKelas);
+
+                        if (!is_data_sorted) {
+                            is_data_sorted = true;
+                            sortData(dataHewan, dataKelas);
+                        }
+
+                        printf("\n [ SESUDAH SORT ]");
+                        printf("\n [ Data Hewan ]");
+                        showData(dataHewan);
+
+                        printf("\n [ Data Kelas ]");
+                        showData(dataKelas);
+
                         printf("\nBerhasil sort [!]\n");
 
                         break;
@@ -386,6 +412,24 @@ int findData(string arr[], string data) {
 
 void updateData(string arr[], int index, string new_data) {
     strcpy(arr[index], new_data);
+}
+
+void sortData(string arr0[], string arr1[]) {
+    string string_tmp;
+
+    for (int i = 0; i < ARRAY_LENGTH; i++) {
+        for (int j = 0; j < (ARRAY_LENGTH - 1) - i; j++) {
+            if (strcmp(arr0[j], arr0[j + 1]) > 0) {
+                strcpy(string_tmp, arr0[j]);
+                strcpy(arr0[j], arr0[j + 1]);
+                strcpy(arr0[j + 1], string_tmp);
+
+                strcpy(string_tmp, arr1[j]);
+                strcpy(arr1[j], arr1[j + 1]);
+                strcpy(arr1[j + 1], string_tmp);
+            }
+        }
+    }
 }
 
 void reverseData(string arr[]) {
