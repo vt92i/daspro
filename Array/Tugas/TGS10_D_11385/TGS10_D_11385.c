@@ -415,10 +415,11 @@ void updateData(string arr[], int index, string new_data) {
 }
 
 void sortData(string arr0[], string arr1[]) {
+    int i, j;
     string string_tmp;
 
-    for (int i = 0; i < ARRAY_LENGTH; i++) {
-        for (int j = 0; j < (ARRAY_LENGTH - 1) - i; j++) {
+    for (i = 0; i < ARRAY_LENGTH; i++) {
+        for (j = 0; j < (ARRAY_LENGTH - 1) - i; j++) {
             if (strcmp(arr0[j], arr0[j + 1]) > 0) {
                 strcpy(string_tmp, arr0[j]);
                 strcpy(arr0[j], arr0[j + 1]);
