@@ -109,6 +109,14 @@ int main(int argc, char const *argv[]) {
                                 fgets(user_input, STRING_LENGTH, stdin);
                                 sscanf(user_input, "%[^\n]", hewan_baru);
 
+                                index = findData(dataHewan, hewan_baru);
+                                if (index != -1) {
+                                    printf("\nNama hewan sudah ada, silahkan masukan nama hewan lain [!]\n");
+                                    continue;
+                                } else {
+                                    break;
+                                }
+
                                 if (strlen(hewan_baru) != 0)
                                     break;
                                 else
@@ -126,6 +134,7 @@ int main(int argc, char const *argv[]) {
                                     printf("\nNama kelas tidak boleh kosong [!]\n");
                             }
 
+                            index = findData(dataHewan, hyphen);
                             updateData(dataHewan, index, hewan_baru);
                             updateData(dataKelas, index, kelas_baru);
 
