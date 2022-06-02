@@ -105,7 +105,6 @@ int main(int argc, char const *argv[]) {
                     tampilMahasiswa(M);
                 else
                     printf("\n[-] Data mahasiswa belum diisi [!]\n");
-
                 break;
 
             case 3:
@@ -113,6 +112,7 @@ int main(int argc, char const *argv[]) {
                 if (!isMahasiswaEmpty(M)) {
                     printf("\n[1] Ubah Data");
                     printf("\n[2] Ubah Data Dosen Pembimbing");
+                    printf("\n[0] Batal");
 
                     printf("\nMenu >> ");
                     fgets(user_input, STRING_LENGTH, stdin);
@@ -129,6 +129,10 @@ int main(int argc, char const *argv[]) {
                             printf("\n--- Ubah Data Dosen Pembimbing ---\n");
                             inputDosenPembimbing(&M.dosBim);
                             printf("\n[+] Berhasil menginput data dosen pembimbing [!]\n");
+                            break;
+
+                        case 0:
+                            printf("\n[-] Batal [!]\n");
                             break;
 
                         default:
