@@ -39,6 +39,8 @@ int findData(string arr[], string data, int arr_length);
 
 void initPasien(Pasien_11385 *pasien);
 void inputPasien(Pasien_11385 *pasien);
+void inputObat(Pasien_11385 *pasien);
+void inputObatSatu(Pasien_11385 *pasien);
 void inputDokter(Pasien_11385 *pasien);
 void inputKamar(Pasien_11385 *pasien);
 void tampilData(Pasien_11385 pasien);
@@ -406,6 +408,7 @@ void tampilData(Pasien_11385 pasien) {
         printf("Kelas Kamar         : %s\n", pasien.kamar.kelas);
     }
 }
+
 void clear_screen_f() {
     if (strcmp(PLATFORM_NAME, "linux") == 0)
         system("clear");
