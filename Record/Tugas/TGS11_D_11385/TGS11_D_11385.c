@@ -79,23 +79,27 @@ int main(int argc, char const *argv[]) {
 
         switch (menu) {
             case 1:
-                printf("\n--- Input Pasien ---\n");
-                inputPasien(&pasien);
-                printf("\n--- Input Obat ---\n");
-                inputObat(&pasien);
-                printf("\n--- Input Dokter ---\n");
-                inputDokter(&pasien);
+                if (strlen(pasien.nama) == 0) {
+                    printf("\n--- Input Pasien ---\n");
+                    inputPasien(&pasien);
+                    printf("\n--- Input Obat ---\n");
+                    inputObat(&pasien);
+                    printf("\n--- Input Dokter ---\n");
+                    inputDokter(&pasien);
 
-                printf("\nIngin lanjut menginput data Kamar? (Y/n)");
-                fgets(user_input, STRING_LENGTH, stdin);
-                sscanf(user_input, "%[^\n]", confirm);
+                    printf("\nIngin lanjut menginput data Kamar? (Y/n)");
+                    fgets(user_input, STRING_LENGTH, stdin);
+                    sscanf(user_input, "%s", confirm);
 
-                if (strcmp(confirm, "Y") == 0) {
-                    printf("\n--- Input Kamar ---\n");
-                    inputKamar(&pasien);
+                    if (strcmp(confirm, "Y") == 0) {
+                        printf("\n--- Input Kamar ---\n");
+                        inputKamar(&pasien);
+                    }
+
+                    printf("\n[+] Data berhasil disimpan [!]\n");
+                } else {
+                    printf("\n[!] Data Pasien sudah diinput [!]\n");
                 }
-
-                printf("\n[+] Data berhasil disimpan [!]\n");
                 break;
 
             case 2:
@@ -114,6 +118,7 @@ int main(int argc, char const *argv[]) {
                     printf("3. Ubah Data Kamar\n");
                     printf("4. Ubah Data Obat (Semua)\n");
                     printf("5. Ubah Data Obat (Satu)\n");
+                    printf("0. Kembali\n");
 
                     printf("\nMenu >> ");
                     fgets(user_input, STRING_LENGTH, stdin);
@@ -143,6 +148,9 @@ int main(int argc, char const *argv[]) {
                         case 5:
                             printf("\n--- Ubah Data Obat (Satu) ---\n");
                             inputObatSatu(&pasien);
+                            break;
+
+                        case 0:
                             break;
 
                         default:
