@@ -157,8 +157,10 @@ int main(int argc, char const *argv[]) {
                 if (strlen(pasien.nama) != 0) {
                     printf("\n--- Hapus Data ---\n");
                     printf("\nApakah anda yakin ingin semua menghapus data? (Y/n)");
+
+                    strcpy(confirm, "");
                     fgets(user_input, STRING_LENGTH, stdin);
-                    sscanf(user_input, "%[^\n]", confirm);
+                    sscanf(user_input, "%s", confirm);
 
                     if (strcmp(confirm, "Y") == 0) {
                         printf("\n[+] Berhasil menghapus semua data [!]\n");
@@ -320,12 +322,22 @@ void inputObatSatu(Pasien_11385 *pasien) {
             printf("\n[-] Obat harus unique [!]\n");
             continue;
         } else {
-            strcpy(pasien->daftar_obat[index], tmp);
+            printf("\nApakah anda yakin ingin mengubah data? (Y/n)");
+
+            strcpy(confirm, "");
+            fgets(user_input, STRING_LENGTH, stdin);
+            sscanf(user_input, "%s", confirm);
+
+            if (strcmp(confirm, "Y") == 0) {
+                printf("\n[+] Berhasil mengubah data [!]\n");
+                strcpy(pasien->daftar_obat[index], tmp);
+            } else {
+                printf("\n[-] Batal mengubah data [!]\n");
+            }
+
             break;
         }
     }
-
-    printf("\nBerhasil input data Obat [!]\n");
 }
 
 void inputDokter(Pasien_11385 *pasien) {
