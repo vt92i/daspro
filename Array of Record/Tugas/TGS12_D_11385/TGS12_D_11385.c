@@ -289,6 +289,17 @@ int main(int argc, char const *argv[]) {
                             break;
                         }
 
+                        int n = 0;
+                        for (i = 0; i < 8; i++) {
+                            if (strcmp(peternakan[index_peternakan].petak[i].kode_petak, "-") != 0)
+                                n++;
+                        }
+
+                        if (!(n >= 2)) {
+                            printf("\nJumlah Petak harus lebih dari 1 [!]\n");
+                            break;
+                        }
+
                         int index_petak_1, index_petak_2;
 
                         while (true) {
@@ -316,6 +327,9 @@ int main(int argc, char const *argv[]) {
                                 continue;
 
                             index_petak_2 = findPetak(peternakan, index_peternakan, kode_petak);
+
+                            if (index_petak_2 == index_petak_1)
+                                continue;
 
                             if (index_petak_2 != -1)
                                 break;
