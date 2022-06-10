@@ -28,8 +28,6 @@ typedef struct {
     Petak petak[8];
 } Peternakan;
 
-int findData(string arr[], string data, int arr_length);
-
 bool isDataInitialized(Peternakan P[]);
 void initDataPeternakan(Peternakan P[]);
 
@@ -111,9 +109,16 @@ int main(int argc, char const *argv[]) {
             case 2:
                 printf("\n---= Set Data Peternakan =---\n");
 
-                printf("Nama Peternakan : ");
-                fgets(user_input, STRING_LENGTH, stdin);
-                sscanf(user_input, "%[^\n]", nama_peternakan);
+                while (true) {
+                    strcpy(nama_peternakan, "");
+
+                    printf("Nama Peternakan : ");
+                    fgets(user_input, STRING_LENGTH, stdin);
+                    sscanf(user_input, "%[^\n]", nama_peternakan);
+
+                    if (strlen(nama_peternakan) != 0)
+                        break;
+                }
 
                 index_peternakan = findPeternakan(peternakan, nama_peternakan);
 
@@ -177,6 +182,8 @@ int main(int argc, char const *argv[]) {
                         }
 
                         while (true) {
+                            peternakan[index_peternakan].petak[index_petak].jumlah_ayam = -1;
+
                             printf("Jumlah Ayam         : ");
                             fgets(user_input, STRING_LENGTH, stdin);
                             sscanf(user_input, "%d", &peternakan[index_peternakan].petak[index_petak].jumlah_ayam);
@@ -187,6 +194,8 @@ int main(int argc, char const *argv[]) {
                         }
 
                         while (true) {
+                            peternakan[index_peternakan].petak[index_petak].jumlah_telur_ayam = -1;
+
                             printf("Jumlah Telur Ayam   : ");
                             fgets(user_input, STRING_LENGTH, stdin);
                             sscanf(user_input, "%d", &peternakan[index_peternakan].petak[index_petak].jumlah_telur_ayam);
@@ -209,6 +218,8 @@ int main(int argc, char const *argv[]) {
                         }
 
                         while (true) {
+                            strcpy(kode_petak, "");
+
                             printf("Kode Petak (Lama)          : ");
                             fgets(user_input, STRING_LENGTH, stdin);
                             sscanf(user_input, "%[^\n]", kode_petak);
@@ -258,6 +269,8 @@ int main(int argc, char const *argv[]) {
                         }
 
                         while (true) {
+                            peternakan[index_peternakan].petak[index_petak].jumlah_ayam = -1;
+
                             printf("Jumlah Ayam (Baru)         : ");
                             fgets(user_input, STRING_LENGTH, stdin);
                             sscanf(user_input, "%d", &peternakan[index_peternakan].petak[index_petak].jumlah_ayam);
@@ -268,6 +281,8 @@ int main(int argc, char const *argv[]) {
                         }
 
                         while (true) {
+                            peternakan[index_peternakan].petak[index_petak].jumlah_telur_ayam = -1;
+
                             printf("Jumlah Telur Ayam (Baru)   : ");
                             fgets(user_input, STRING_LENGTH, stdin);
                             sscanf(user_input, "%d", &peternakan[index_peternakan].petak[index_petak].jumlah_telur_ayam);
@@ -303,6 +318,8 @@ int main(int argc, char const *argv[]) {
                         int index_petak_1, index_petak_2;
 
                         while (true) {
+                            strcpy(kode_petak, "");
+
                             printf("Kode Petak 1          : ");
                             fgets(user_input, STRING_LENGTH, stdin);
                             sscanf(user_input, "%[^\n]", kode_petak);
@@ -319,6 +336,8 @@ int main(int argc, char const *argv[]) {
                         }
 
                         while (true) {
+                            strcpy(kode_petak, "");
+
                             printf("Kode Petak 2          : ");
                             fgets(user_input, STRING_LENGTH, stdin);
                             sscanf(user_input, "%[^\n]", kode_petak);
@@ -354,9 +373,16 @@ int main(int argc, char const *argv[]) {
             case 3:
                 printf("\n---= Tampil Data Peternakan =---\n");
 
-                printf("Nama Peternakan : ");
-                fgets(user_input, STRING_LENGTH, stdin);
-                sscanf(user_input, "%[^\n]", nama_peternakan);
+                while (true) {
+                    strcpy(nama_peternakan, "");
+
+                    printf("Nama Peternakan : ");
+                    fgets(user_input, STRING_LENGTH, stdin);
+                    sscanf(user_input, "%[^\n]", nama_peternakan);
+
+                    if (strlen(nama_peternakan) != 0)
+                        break;
+                }
 
                 index_peternakan = findPeternakan(peternakan, nama_peternakan);
 
@@ -407,6 +433,7 @@ int main(int argc, char const *argv[]) {
         }
         pause_f();
     } while (menu != 0);
+    return 0;
 }
 
 bool isDataInitialized(Peternakan P[]) {
