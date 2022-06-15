@@ -141,6 +141,9 @@ int main(int argc, char const *argv[]) {
                                 if (strcmp(temp_var, "-") == 0)
                                     continue;
 
+                                if (findMahasiswa(mahasiswa, temp_var) != -1)
+                                    continue;
+
                                 if (strcmp(temp_var, "") != 0) {
                                     strcpy(mahasiswa[index_mahasiswa].username, temp_var);
                                     break;
@@ -315,12 +318,10 @@ int main(int argc, char const *argv[]) {
                             printf("\n\t[ Mata Kuliah %d ]\n", i + 1);
                             printf("\tNama Mata Kuliah : %s\n", mahasiswa[index_mahasiswa].mata_kuliah[i].nama);
 
-                            int sks = mahasiswa[index_mahasiswa].mata_kuliah[i].sks;
-
-                            if (sks == 0)
+                            if (mahasiswa[index_mahasiswa].mata_kuliah[i].sks == 0)
                                 printf("\tSKS              : -\n");
                             else
-                                printf("\tSKS              : %d\n", sks);
+                                printf("\tSKS              : %d\n", mahasiswa[index_mahasiswa].mata_kuliah[i].sks);
                         }
 
                         break;
