@@ -193,6 +193,16 @@ int main(int argc, char const *argv[]) {
                             printf("Username     : %s\n", mahasiswa[i].username);
                             printf("Password     : %s\n", mahasiswa[i].password);
                             printf("Nama         : %s\n", mahasiswa[i].nama);
+
+                            for (j = 0; j < 3; j++) {
+                                printf("\n\t[ Mata Kuliah %d ]\n", j + 1);
+                                printf("\tNama Mata Kuliah : %s\n", mahasiswa[i].mata_kuliah[j].nama);
+
+                                if (mahasiswa[i].mata_kuliah[j].sks == 0)
+                                    printf("\tSKS              : -\n");
+                                else
+                                    printf("\tSKS              : %d\n", mahasiswa[i].mata_kuliah[j].sks);
+                            }
                         }
 
                         break;
